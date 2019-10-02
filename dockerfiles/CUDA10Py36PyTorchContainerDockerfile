@@ -1,7 +1,7 @@
-FROM pytorch/pytorch:1.0-cuda10.0-cudnn7-devel
+FROM pytorch/pytorch:1.2-cuda10.0-cudnn7-devel
 
+# RUN conda uninstall numpy
 RUN conda install pyyaml=3.12.*
-
 LABEL maintainer="Rehan Durrani <rdurrani@berkeley.edu>"
 
 RUN apt-get update -qq
@@ -14,12 +14,12 @@ RUN mkdir -p /model \
 
 RUN pip install cloudpickle==0.5.* pyopenssl pyzmq==17.0.* prometheus_client==0.1.* \
     jsonschema==2.6.* redis==2.10.* psutil==5.4.* flask==0.12.2 \
-    numpy==1.14.*
+    numpy
 
 COPY clipper_admin /clipper_admin/
 
 RUN cd /clipper_admin \
-                && pip install .
+                && pip install . --ignore-installed PyYAML
 
 WORKDIR /container
 
